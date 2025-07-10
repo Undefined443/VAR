@@ -37,7 +37,7 @@ def initialize(fork=False, backend='nccl', gpu_id_if_not_distibuted=0, timeout=3
         method = 'fork' if fork else 'spawn'
         print(f'[dist initialize] mp method={method}')
         mp.set_start_method(method)
-    tdist.init_process_group(backend=backend, timeout=datetime.timedelta(seconds=timeout*60))
+    tdist.init_process_group(backend=backend, timeout=datetime.timedelta(seconds=timeout*60), device_id=torch.device(local_rank))
     
     global __rank, __local_rank, __world_size, __initialized
     __local_rank = local_rank
